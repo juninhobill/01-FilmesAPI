@@ -1,7 +1,12 @@
 ﻿using FilmesAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace FilmesAPI.Controllers
+namespace FilmesApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
@@ -13,10 +18,9 @@ namespace FilmesAPI.Controllers
         [HttpPost]
         public IActionResult AdicionaFilme([FromBody] Filme filme)
         {
-            filme.id = id++;
+            filme.Id = id++;
             filmes.Add(filme);
-            Console.WriteLine(filme.Titulo);
-            return CreatedAtAction(nameof(RecuperaFilmesPorId), new { id = filme.id }, filme);
+            return CreatedAtAction(nameof(RecuperaFilmesPorId), new { Id = filme.Id }, filme);
         }
 
         [HttpGet]
@@ -28,7 +32,7 @@ namespace FilmesAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult RecuperaFilmesPorId(int id)
         {
-            Filme filme = filmes.FirstOrDefault(filme => filme.id == id);
+            Filme filme = filmes.FirstOrDefault(filme => filme.Id == id);
             if(filme != null)
             {
                 return Ok(filme);
